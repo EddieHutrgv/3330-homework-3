@@ -99,9 +99,44 @@ $(function () {
     // Do not modify the JS objects above. You will write your code below.
     // *********************************************************************
 
+    
+        // converts all HTML buttons to jQuery UI buttons
+    $("button, input[type='button'], input[type='submit']").button();
 
+        //converts element id dashboardTabs to a jQuery UI Tabs widget
+    $("#dashboardTabs").tabs();
 
-       
+    $("#customerDialog").dialog({
 
-
+        autoOpen: false,
+        modal: true,
+        width: 450,
+        buttons: {
+            "Create Customer": function () {
+              var name = $("#customerName").val();
+              var email = $("#customerEmail").val();
+            if (!name || !email) {
+                alert(
+                    "Please enter a name and email."
+                );
+                return;
+            }
+            alert("Customer created: " + name);
+            $(this).dialog("close");
+            },
+            "Cancel": function () {
+               $(this).dialog("close");
+            }
+        }   
     });
+
+    //event listener for button trigger
+    $("#newCustomerButton").on("click", function () {
+        $("#customerDialog").dialog("open");
+    });
+
+    $("#accordion").accordion({
+        collapsible: true,
+        heightStyle: "content"
+    });
+});
