@@ -99,9 +99,105 @@ $(function () {
     // Do not modify the JS objects above. You will write your code below.
     // *********************************************************************
 
+    $("#username").text(username);
+    $(".revenue-amt").text(revenueAmt);
+    $("#customer-num").text(customerNum);
+    $("#orders-amt").text(ordersAmt);
+    $("#issues-amt").text(issuesAmt);
+    $("#notification-num").text(notifAmt);
 
+    SalesTab = $('#salesTableBody');
 
-       
-
-
+    sales.forEach(sale =>{
+        const SalesItem = $("<tr>");
+        SalesItem.html(`<td>${sale.product}</td><td>${sale.quantity}</td><td>${sale.revenue}</td>`);
+        SalesTab.append(SalesItem);
     });
+
+    activLi = $('#activity-list');
+
+    activities.forEach(activity =>{
+        const ActivityItem = $("<li>");
+        ActivityItem.html(`${activity.message}`);
+        activLi.append(ActivityItem);
+    });
+
+    custom = $('#customerTableBody');
+
+    customers.forEach(customer =>{
+        const CustomerItem = $("<tr>");
+        CustomerItem.html(`
+            <td>${customer.name}</td>
+            <td>${customer.email}</td>
+            <td><span class="status status-${customer.status.toLowerCase()}">${customer.status}</span></td>
+            <td>${customer.joined}</td>`);
+        custom.append(CustomerItem);
+    });
+
+    systemStat = $('#system-status-list');
+
+    messages.forEach(message =>{
+        const MessageItem = $("<li>");
+        MessageItem.html(`${message.messsage}`);
+        systemStat.append(MessageItem);
+    });
+
+
+    NoteList = $('#notifications-list');
+
+    notifications.forEach(notification =>{
+        const NotificationItem = $("<li>");
+        NotificationItem.html(`${notification.messsage}`);
+        NoteList.append(NotificationItem);
+    });
+
+    Taskli = $('#tasks-list');
+
+    tasks.forEach(task =>{
+        const TaskItem = $("<li>");
+        TaskItem.html(`${task.messsage}`);
+        Taskli.append(TaskItem);
+    });
+
+        // converts all HTML buttons to jQuery UI buttons
+    $("button, input[type='button'], input[type='submit']").button();
+
+        //converts element id dashboardTabs to a jQuery UI Tabs widget
+    $("#dashboardTabs").tabs();
+
+    $("#customerDialog").dialog({
+
+        autoOpen: false,
+        modal: true,
+        width: 450,
+        buttons: {
+            "Create Customer": function () {
+              var name = $("#customerName").val();
+              var email = $("#customerEmail").val();
+            if (!name || !email) {
+                alert(
+                    "Please enter a name and email."
+                );
+                return;
+            }
+            alert("Customer created: " + name);
+            $(this).dialog("close");
+            },
+            "Cancel": function () {
+               $(this).dialog("close");
+            }
+        }   
+    });
+
+    //event listener for button trigger
+    $("#newCustomerButton").on("click", function () {
+        $("#customerDialog").dialog("open");
+    });
+
+    $("#accordion").accordion({
+        collapsible: true,
+        heightStyle: "content"
+    });
+
+    $("#customerDate").datepicker();
+});
